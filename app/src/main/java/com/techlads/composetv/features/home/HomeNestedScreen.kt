@@ -6,7 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.techlads.composetv.features.home.carousel.HomeCarousel
+import com.techlads.composetv.features.home.carousel.SmartTabsListWithData
+import com.techlads.composetv.features.home.carousel.TextTabs
 import com.techlads.composetv.features.home.hero.HeroItem
 
 @Composable
@@ -21,11 +22,13 @@ fun HomeNestedScreen(
 
     Column(Modifier.fillMaxSize()) {
         HeroItem()
-        HomeCarousel(Modifier.weight(1f), onItemFocus = { parent, child ->
+        TextTabs()
+        /*HomeCarousel(Modifier.weight(1f), onItemFocus = { parent, child ->
             focusState.value = FocusPosition(parent, child)
             onItemFocus(parent, child)
-        }, onItemClick = onItemClick)
+        }, onItemClick = onItemClick)*/
     }
 }
+
 
 typealias FocusPosition = Pair<Int, Int>
