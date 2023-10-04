@@ -74,7 +74,7 @@ fun SmartTabsListWithData() {
     )
 }
 
-@OptIn(ExperimentalTvMaterial3Api::class)
+@OptIn(ExperimentalTvMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun TextTabs() {
     var state by remember { mutableStateOf(0) }
@@ -98,6 +98,7 @@ fun TextTabs() {
                 Tab(
                     selected = state == index,
                     onClick = { state = index },
+                    modifier = Modifier.focusRestorer(),
                     content = {
                         Text(
                             text = title,
