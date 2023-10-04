@@ -1,8 +1,11 @@
 package com.techlads.composetv.features.home.carousel
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -22,7 +25,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRestorer
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Blue
+import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -118,19 +124,18 @@ fun TextTabs() {
 
 @Composable
 private fun TvCell(tabItem: TabItem) {
-    Column(modifier = Modifier.size(256.dp)) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(2.dp)
-                .border(width = 1.dp, color = Color.Blue, shape = RoundedCornerShape(8.dp))
-                .padding(2.dp)
-        ) {
-            val image: Painter = painterResource(id = tabItem.imageDrawable)
-            Image(painter = image, contentDescription = "")
-        }
-    }
+    var color by remember { mutableStateOf(Green) }
 
+    Box(
+        Modifier
+            .background(color)
+            .size(256.dp)
+            .onFocusChanged { color = if (it.isFocused) Blue else Green }
+            .focusable()
+    ) {
+        val image: Painter = painterResource(id = tabItem.imageDrawable)
+        Image(painter = image, contentDescription = "")
+    }
 }
 
 private fun generateContent(): List<TabData> = buildList {
