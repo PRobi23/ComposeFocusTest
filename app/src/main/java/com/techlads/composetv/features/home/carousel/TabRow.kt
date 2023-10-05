@@ -16,14 +16,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
@@ -80,16 +83,15 @@ fun TextTabs() {
     var state by remember { mutableStateOf(0) }
     val titles = listOf("Tab 1", "Tab 2", "Tab 3 with lots of text")
     val items = listOf(
-        TabItem(imageDrawable = R.drawable.hero_item),
-        TabItem(imageDrawable = R.drawable.boy),
-        TabItem(imageDrawable = R.drawable.boy3),
-        TabItem(imageDrawable = R.drawable.boy),
-        TabItem(imageDrawable = R.drawable.girl),
-        TabItem(imageDrawable = R.drawable.ic_auto_awesome_motion),
-        TabItem(imageDrawable = R.drawable.ic_repeat),
-        TabItem(imageDrawable = R.drawable.boy),
-        TabItem(imageDrawable = R.drawable.hero_item)
-
+        TabItem(id = "1", imageDrawable = R.drawable.hero_item),
+        TabItem(id = "2", imageDrawable = R.drawable.boy),
+        TabItem(id = "3", imageDrawable = R.drawable.boy3),
+        TabItem(id = "4", imageDrawable = R.drawable.boy),
+        TabItem(id = "5", imageDrawable = R.drawable.girl),
+        TabItem(id = "6", imageDrawable = R.drawable.ic_auto_awesome_motion),
+        TabItem(id = "7", imageDrawable = R.drawable.ic_repeat),
+        TabItem(id = "8", imageDrawable = R.drawable.boy),
+        TabItem(id = "9", imageDrawable = R.drawable.hero_item)
     )
 
     Column {
@@ -114,9 +116,11 @@ fun TextTabs() {
             columns = TvGridCells.Fixed(6),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(16.dp)
+            contentPadding = PaddingValues(16.dp),
+            modifier = Modifier.focusRestorer()
         ) {
             items(items) {
+
                 TvCell(it)
             }
         }
@@ -131,7 +135,12 @@ private fun TvCell(tabItem: TabItem) {
         Modifier
             .background(color)
             .size(256.dp)
-            .onFocusChanged { color = if (it.isFocused) Blue else Green }
+            .onFocusChanged {
+                color = if (it.isFocused) Blue else Green
+                if (it.hasFocus) {
+                    //lastFocusedItem = tabItem.id
+                }
+            }
             .focusable()
     ) {
         val image: Painter = painterResource(id = tabItem.imageDrawable)

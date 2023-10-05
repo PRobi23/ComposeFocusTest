@@ -145,4 +145,4 @@ private fun <T> SmartTabsItems(
     }
 }
 
-data class TabItem(val imageDrawable: Int)
+data class TabItem(val id: String, val imageDrawable: Int)
